@@ -29,8 +29,11 @@ class MutantStack{
     public:
         class iterator{
             public:
-                iterator(const T* p);
-                T operator=(const iterator& other);
+                iterator();
+                iterator(const iterator& other);
+                // iterator();
+                iterator operator=(const iterator& other);
+                ~iterator();
                 T operator*();
                 MutantStack<T, Container>::iterator operator++();
                 MutantStack<T, Container>::iterator operator++(T);
@@ -42,8 +45,10 @@ class MutantStack{
         };
         class reverse_iterator{
             public:
-                reverse_iterator(const T* p);
-                T operator=(const reverse_iterator& other);
+                reverse_iterator();
+                reverse_iterator(const reverse_iterator& other);
+                reverse_iterator operator=(const reverse_iterator& other);
+                ~reverse_iterator();
                 T operator*();
                 MutantStack<T, Container>::reverse_iterator operator++();
                 MutantStack<T, Container>::reverse_iterator operator++(T);
@@ -120,7 +125,7 @@ const char* MutantStack<T, Container>::DequeEmpty::what() const throw(){
 
 template <typename T, typename Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::begin() const{
-    return iterator(&(*deque.begin()));
+    return iterator(deque.begin());
 }
 template <typename T, typename Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::end() const{
@@ -128,93 +133,127 @@ typename MutantStack<T, Container>::iterator MutantStack<T, Container>::end() co
 }
 template <typename T, typename Container>
 typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::rbegin() const{
-    return iterator(&(*deque.rbegin()));
+    return reverse_iterator(&(*deque.rbegin()));
 }
 template <typename T, typename Container>
 typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::rend() const{
-    return iterator(&(*deque.rend()));
+    return reverse_iterator(&(*deque.rend()));
 }
 
 /*============================================
-            iterator classes
+            iterator class
 ============================================*/
 template <typename T, typename Container>
-MutantStack<T, Container>::iterator::iterator(const T* p){
-    p_ = const_cast<T*>(p);
-}
+MutantStack<T, Container>::iterator::iterator(){}
 template <typename T, typename Container>
-MutantStack<T, Container>::reverse_iterator::reverse_iterator(const T* p){
-    p_ = const_cast<T*>(p);
+MutantStack<T, Container>::iterator::iterator(const iterator& other){
+    if(this != &other){
+        *this = other;
+    }
 }
-//--------------- = ---------------------------
+
 template <typename T, typename Container>
-T MutantStack<T, Container>::iterator::operator=(const iterator& other){
-    p_ = other.p_;
-}
+MutantStack<T, Container>::iterator::~iterator(){}
+
 template <typename T, typename Container>
-T MutantStack<T, Container>::reverse_iterator::operator=(const reverse_iterator& other){
-    p_ = other.p_;
+typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::iterator::operator=(const iterator& other){
+    if(this != &other){
+        p_ = other.p_;
+    }
+    return *this;
 }
-//--------------- * ---------------------------
+
 template <typename T, typename Container>
 T MutantStack<T, Container>::iterator::operator*(){
     return *p_;
 }
-template <typename T, typename Container>
-T MutantStack<T, Container>::reverse_iterator::operator*(){
-    return *p_;
-}
-//--------------- ++ ---------------------------
+
 template <typename T, typename Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::operator++(){
     p_ = ++p_;
     return *this;
 }
-template <typename T, typename Container>
-typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator++(){
-    p_ = p_--;
-    return *this;
-}
 
-template <typename T, typename Container>
-typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::operator++(T){
-    iterator it=iterator(*this);
-    p_ = ++p_;
-    return it;
-}
-template <typename T, typename Container>
-typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator++(T){
-    iterator it=iterator(*this);
-    p_ = p_--;
-    return it;
-}
-
-//--------------- -- ---------------------------
 template <typename T, typename Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::operator--(){
-    return *p_;
+    p_ = --p_;
+    return *this;
 }
 template <typename T, typename Container>
-typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator--(){
-    return *p_;
+typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::operator++(T){
+    iterator it;
+    it = *this;
+    p_ = ++p_;
+    return it;
 }
 
 template <typename T, typename Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::iterator::operator--(T){
-    return *p_;
-}
-template <typename T, typename Container>
-typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator--(T){
-    return *p_;
+    iterator it=iterator(*this);
+    p_ = --p_;
+    return it;
 }
 
-//--------------- != ---------------------------
 template <typename T, typename Container>
 bool MutantStack<T, Container>::iterator::operator!=(const iterator& other){
     if(p_ != other.p_)
         return true;
     return false;
 }
+/*============================================
+            reverse_iterator classes
+============================================*/
+template <typename T, typename Container>
+MutantStack<T, Container>::reverse_iterator::reverse_iterator(){}
+template <typename T, typename Container>
+MutantStack<T, Container>::reverse_iterator::reverse_iterator(const reverse_iterator& other){
+    if(this != &other){
+        *this = other;
+    }
+}
+
+template <typename T, typename Container>
+MutantStack<T, Container>::reverse_iterator::~reverse_iterator(){}
+
+template <typename T, typename Container>
+typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator=(const reverse_iterator& other){
+    if(this != &other){
+        p_ = other.p_;
+    }
+    return *this;
+}
+template <typename T, typename Container>
+T MutantStack<T, Container>::reverse_iterator::operator*(){
+    return *p_;
+}
+
+template <typename T, typename Container>
+typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator++(){
+    p_ = --p_;
+    return *this;
+}
+
+template <typename T, typename Container>
+typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator++(T){
+    iterator it;
+    it = *this;
+    p_ = --p_;
+    return it;
+}
+
+template <typename T, typename Container>
+typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator--(){
+    p_ = ++p_;
+    return *this;
+}
+
+template <typename T, typename Container>
+typename MutantStack<T, Container>::reverse_iterator MutantStack<T, Container>::reverse_iterator::operator--(T){
+    iterator it=iterator(*this);
+    p_ = ++p_;
+    return it;
+}
+
 template <typename T, typename Container>
 bool MutantStack<T, Container>::reverse_iterator::operator!=(const reverse_iterator& other){
     if(p_ != other.p_)
