@@ -170,7 +170,7 @@ MutantStack<T>::DequeEmpty::DequeEmpty(const std::string message): std::logic_er
 template <typename T>
 MutantStack<T>::DequeLimit::DequeLimit(const std::string message): std::logic_error(message){}
 /*============================================
-            iterator classes
+            iterator class
 ============================================*/
 template <typename T>
 MutantStack<T>::iterator::iterator(){

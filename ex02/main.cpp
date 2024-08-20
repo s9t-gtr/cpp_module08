@@ -115,6 +115,34 @@ void subjectTest_mutantStack(){
     }
     std::stack<int> s(mstack); 
 }
+        // { // list iterator test
+        //     list lst ;
+        //     for (int i = 0; i < 5; ++i) {
+        //         lst.push_back(i);
+        //     }
+        //     list::iterator it;
+        //     it = lst.begin();
+            
+        //     list::iterator it2;
+        //     it2 = it;
+
+        //     list::iterator it3(it);
+        //     list::iterator it4(lst.begin());
+
+
+        //     std::cout << *it << std::endl;
+        //     it++;
+        //     std::cout << *it << std::endl;
+        //     std::cout << *it2 << std::endl;
+        //     it2++;
+        //     std::cout << *it2 << std::endl;
+        //     std::cout << *it3 << std::endl;
+        //     it3++;
+        //     std::cout << *it3 << std::endl;
+        //     std::cout << *it4 << std::endl;
+        //     it4++;
+        //     std::cout << *it4 << std::endl;
+        // } 
 
 void stackFunctionsTest(){
    testTitle("stack functions test");
