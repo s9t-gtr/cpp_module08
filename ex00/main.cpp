@@ -28,8 +28,4 @@ int main(){
             std::cerr << "s_vec: exception" << std::endl;
         }
     }
-    {
-
-    }
-
 }

@@ -1,11 +1,12 @@
 #include "Span.hpp"
 
-Span::Span(){
-    std::cout << "Span: Default constructor called" << std::endl;
-}
-Span::Span(unsigned int N): span(new  vec[N]){
+Span::Span(unsigned int N) try : span(new vec){
     std::cout << "Span: Unsigned int argument constructor called" << std::endl;
+    span->reserve(N);
+}catch(std::bad_alloc& e){
+    std::cerr << "Span constructor: new failed" << std::endl;
 }
+
 Span::Span(const Span& other){
     std::cout << "Span: Copy constructor called" << std::endl;
     if(this != &other)
@@ -13,13 +14,14 @@ Span::Span(const Span& other){
 }   
 Span::~Span(){
     std::cout << "Span: Destructor called" << std::endl;
-    delete [] span;
+    delete span;
 }
 Span& Span::operator=(const Span& other){
     if(this != &other){
         try{
-             vec *p = new  vec[other.span->max_size()];
-            delete [] span;
+            vec *p = new vec;
+            p->reserve(other.span->capacity());
+            delete span;
             span = p;
         }catch(std::bad_alloc&){
             std::cerr << "Exception: Span new failed;" << std::endl;
@@ -27,13 +29,6 @@ Span& Span::operator=(const Span& other){
     }
     return *this;
 }
-
-void Span::addNumbers(vecIter begin, vecIter end){
-    while(begin != end){
-        addNumber(*begin);
-        ++begin;
-    } 
-}       
 
 void Span::addNumber(unsigned int n){
     if(span->size() >= span->capacity())
@@ -62,12 +57,8 @@ unsigned int Span::longestSpan(){
     if(span->size() == 1)
         throw SpanOneElement();
     std::sort(span->begin(), span->end());
-    unsigned int longDiff = 0;
-    size_t size = span->size() - 1;
-    for(size_t i=0; i<size; i++) {
-        unsigned int diff = span->at(i+1) - span->at(i);
-        longDiff = std::max(longDiff, diff); 
-    }
+    size_t len = span->size();
+    unsigned int longDiff = span->at(len-1) - span->at(0);
     return longDiff;
 }
 
@@ -83,4 +74,10 @@ const char* Span::SpanOneElement::what() const throw(){
 }
 const char* Span::SpanFull::what() const throw(){
     return "Exception: SpanFull";
+}
+
+void Span::getMinMax(){
+    std::sort(span->begin(), span->end());
+    std::cerr << " - span min num: "<<span->at(0) << std::endl;;
+    std::cerr << " - span max num: "<<span->at(span->size()-1) << std::endl;;
 }

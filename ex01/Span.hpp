@@ -2,6 +2,7 @@
 # define __SPAN_HPP
 
 #include <iostream>
+#include <vector>
 typedef std::vector<unsigned int>::iterator vecIter;
 typedef std::vector<unsigned int> vec;
 
@@ -17,7 +18,7 @@ class Span{
         void addNumber(unsigned int n); 
         unsigned int shortestSpan();
         unsigned int longestSpan();
-        void addNumbers(vecIter begin, vecIter end);
+        void getMinMax();
     private:
         std::vector<unsigned int> *span;
 
