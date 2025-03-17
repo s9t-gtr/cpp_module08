@@ -32,4 +32,7 @@ fclean: clean
 
 re: fclean all;
 
+test: re
+	sh test.sh
+
 -include ${DEPS}

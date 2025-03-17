@@ -2,17 +2,30 @@
 # define __EASYFIND_HPP
 
 #include <iostream>
-#include <algorithm>
+
 
 template <typename T>
-void easyfind(const T type, const int n){
-    if(n < 0){
-        std::cerr << "Error: Second argument must be greater than or equal to 0" << std::endl;
-        return;
-    }
-    if((int)type.size()-1 < n)
-        throw std::exception();
-    std::cout << type[n] <<std::endl;
+void easyfind(const T& container, const int target){
+	size_t firstOccurrence = 1;
+	typename T::const_iterator it = container.begin();
+	for (; it != container.end(); it++) {		
+		if (*it == target) {
+			std::cout << "        First occurrence position: " << firstOccurrence << std::endl;
+			return;
+		}
+		firstOccurrence++;
+	}
+    throw std::invalid_argument("Not found in container");
+}
+
+// test code
+template <typename T>
+T createContainer(int *ptr, size_t size) {
+	T container;
+	for (size_t i = 0; i < size; i++) {
+		container.insert(container.end(), ptr[i]);
+	}
+	return container;
 }
 
 #endif
