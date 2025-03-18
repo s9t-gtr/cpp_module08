@@ -1,25 +1,28 @@
 #include "Span.hpp"
+#include <iostream>
 
-Span::Span(unsigned int N) try : span(new vec){
-    std::cout << "Span: Unsigned int argument constructor called" << std::endl;
+Span::Span(unsigned int N) try : span(new uVec){
+	//std::cout << "Span: Unsigned int argument constructor called" << std::endl;
     span->reserve(N);
 }catch(std::bad_alloc& e){
     std::cerr << "Span constructor: new failed" << std::endl;
 }
 
 Span::Span(const Span& other){
-    std::cout << "Span: Copy constructor called" << std::endl;
+    //std::cout << "Span: Copy constructor called" << std::endl;
     if(this != &other)
         *this = other;
 }   
+
 Span::~Span(){
-    std::cout << "Span: Destructor called" << std::endl;
+    //std::cout << "Span: Destructor called" << std::endl;
     delete span;
 }
+
 Span& Span::operator=(const Span& other){
     if(this != &other){
         try{
-            vec *p = new vec;
+            uVec *p = new uVec;
             p->reserve(other.span->capacity());
             delete span;
             span = p;
@@ -30,10 +33,10 @@ Span& Span::operator=(const Span& other){
     return *this;
 }
 
-void Span::addNumber(unsigned int n){
-    if(span->size() >= span->capacity())
+void Span::addNumber(unsigned int number){
+    if(span->size() == span->capacity())
         throw SpanFull();
-    span->push_back(n);
+    span->push_back(number);
 }   
 
 unsigned int Span::shortestSpan(){
@@ -81,3 +84,5 @@ void Span::getMinMax(){
     std::cerr << " - span min num: "<<span->at(0) << std::endl;;
     std::cerr << " - span max num: "<<span->at(span->size()-1) << std::endl;;
 }
+
+
