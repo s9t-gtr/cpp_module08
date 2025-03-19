@@ -12,6 +12,7 @@ typedef std::list<std::string> strList;
 #define MUTANT_STACK std::cout << "MutantStack--------" << std::endl;
 #define STD_LIST std::cout << "std::list--------" << std::endl;
 #define STD_STACK_INT std::cout << "std::stack<int>--------" << std::endl;
+
 void testTitle(const std::string test_name);
 //-----------------------------
 
@@ -23,7 +24,7 @@ void iteratorTest();
 int main()
 {
     subjectTest();
-    stackFunctionsTest();
+	stackFunctionsTest();
         //- push()
         //- pop()
         //- top()
@@ -82,7 +83,7 @@ void subjectTest_mutantStack();
 void subjectTest(){
     testTitle("subject test");
     subjectTest_mutantStack();
-    subjectTest<std::list<int> >();
+	subjectTest<std::list<int> >();
     subjectTest<std::deque<int> >();
     subjectTest<std::vector<int> >();
 }
@@ -94,11 +95,11 @@ void subjectTest_mutantStack(){
 
     mstack.push(17);
     
-    std::cout << mstack.top() << std::endl;
+    std::cout << "top: " << mstack.top() << std::endl;
 
     mstack.pop();
 
-    std::cout << mstack.size() << std::endl;
+    std::cout << "size: " << mstack.size() << std::endl;
     mstack.push(3); 
     mstack.push(5); 
     mstack.push(737); 
@@ -107,42 +108,16 @@ void subjectTest_mutantStack(){
     MutantStack<int>::iterator it = mstack.begin(); 
     MutantStack<int>::iterator ite = mstack.end();
 
+	std::cout << "<<<<<< all element <<<<<<<" << std::endl;
     ++it;
     --it;
     while (it != ite) {
         std::cout << *it << std::endl;
         ++it; 
     }
+	std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
     std::stack<int> s(mstack); 
 }
-        // { // list iterator test
-        //     list lst ;
-        //     for (int i = 0; i < 5; ++i) {
-        //         lst.push_back(i);
-        //     }
-        //     list::iterator it;
-        //     it = lst.begin();
-            
-        //     list::iterator it2;
-        //     it2 = it;
-
-        //     list::iterator it3(it);
-        //     list::iterator it4(lst.begin());
-
-
-        //     std::cout << *it << std::endl;
-        //     it++;
-        //     std::cout << *it << std::endl;
-        //     std::cout << *it2 << std::endl;
-        //     it2++;
-        //     std::cout << *it2 << std::endl;
-        //     std::cout << *it3 << std::endl;
-        //     it3++;
-        //     std::cout << *it3 << std::endl;
-        //     std::cout << *it4 << std::endl;
-        //     it4++;
-        //     std::cout << *it4 << std::endl;
-        // } 
 
 void stackFunctionsTest(){
    testTitle("stack functions test");
@@ -247,7 +222,7 @@ void iteratorTest_emptyStack_begin(){
     }
     MUTANT_STACK
     {
-        iteratorTest_emptyStack_begin<MutantStack<int> >();
+        iteratorTest_emptyStack_begin<MutantStack<int, std::list<int> > >();
     }
 }
 
@@ -259,7 +234,7 @@ void iteratorTest_emptyStack_end(){
     }
     MUTANT_STACK
     {
-        iteratorTest_emptyStack_end<MutantStack<int> >();
+        iteratorTest_emptyStack_end<MutantStack<int, std::list<int> > >();
     }
 }
 
@@ -292,8 +267,8 @@ void iteratorTest_increment_overStackSize(){
     }
     MUTANT_STACK
     {
-        MutantStack<int> stack;
-        MutantStack<int>::iterator it=stack.begin();
+        MutantStack<int, std::list<int> > stack;
+        MutantStack<int, std::list<int> >::iterator it=stack.begin();
         for(size_t i=0;i<5;i++){
             stack.push(i);
         }
@@ -307,7 +282,7 @@ void iteratorTest_increment_overStackSize(){
             std::cout << *it << std::endl;
         }
         std::cout << "copy" << std::endl;
-        MutantStack<int>::iterator cpIt = it;
+        MutantStack<int, std::list<int> >::iterator cpIt = it;
         std::cout << "copy iterator :" <<  *cpIt << std::endl;
     }
 }
@@ -336,23 +311,23 @@ void iteratorTest_increment_overStackSize_reverseIterator(){
     }
     MUTANT_STACK
     {
-        MutantStack<int> stack;
+        MutantStack<int, std::list<int> > stack;
         for(size_t i=0;i<5;i++){
             stack.push(i);
         }
-        MutantStack<int>::reverse_iterator it=stack.rbegin();
+        MutantStack<int, std::list<int> >::reverse_iterator it = stack.rbegin();
 
         for(;it!=stack.rend();it++){
             std::cout << *it << std::endl;
         }
         std::cout << " achieve rend()" << std::endl;
-        // for(size_t i=0;i<10;i++){
-        //     it++;
-        //     std::cout << *it << std::endl;
-        // }
-        // std::cout << "copy" << std::endl;
-        // MutantStack<int>::reverse_iterator cpIt = it;
-        // std::cout << "copy iterator :" <<  *cpIt << std::endl;
+         for(size_t i=0;i<10;i++){
+             it++;
+             std::cout << *it << std::endl;
+         }
+         std::cout << "copy" << std::endl;
+         MutantStack<int, std::list<int> >::reverse_iterator cpIt = it;
+         std::cout << "copy iterator :" <<  *cpIt << std::endl;
     }
 }
 
@@ -383,14 +358,14 @@ void iteratorTest_decrement_for_indirect(){
    }
    MUTANT_STACK
    {
-       MutantStack<int> stack;
-       MutantStack<int>::iterator it;
+       MutantStack<int, std::list<int> > stack;
+       MutantStack<int, std::list<int> >::iterator it;
     //    std::cout << "empty stack: " << *it << std::endl; //segv
        for(size_t i=0;i<5;i++){
            stack.push(i);
        }
         it = stack.begin();
-       MutantStack<int>::iterator itEnd = stack.end();
+       MutantStack<int, std::list<int> >::iterator itEnd = stack.end();
        while(it != itEnd){
            std::cout << --*it << std::endl;
            it++;
