@@ -4,12 +4,16 @@
 #include <vector>
 #include <deque>
 #include <list>
+#include <set>
+
 #define TEST_NUM 10000
 #define EMPTY_LINE std::cout << std::endl
 
 typedef std::vector<unsigned int> uVec;
 typedef std::deque<unsigned int> uDeq;
 typedef std::list<unsigned int> uList;
+typedef std::set<unsigned int> uSet;
+
 class Span{
     private:
         Span();
