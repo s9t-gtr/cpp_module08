@@ -33,15 +33,6 @@ class MutantStack: public std::stack<T, Container>{
 		const_reverse_iterator rend() const;
 	private:
 		using std::stack<T, Container>::c;
-    public:
-        class DequeEmpty: public std::logic_error{
-            public:
-                DequeEmpty(const std::string message);
-        };
-        class DequeLimit: public std::logic_error{
-            public:
-                DequeLimit(const std::string message);
-        };
 };
 
 template <typename T, class Container>
@@ -70,11 +61,6 @@ MutantStack<T, Container>& MutantStack<T, Container>::operator=(const MutantStac
 /*======================================================
  * Member_functions
 ========================================================*/
-
-template <typename T, class Container>
-MutantStack<T, Container>::DequeEmpty::DequeEmpty(const std::string message): std::logic_error(message){}
-template <typename T, class Container>
-MutantStack<T, Container>::DequeLimit::DequeLimit(const std::string message): std::logic_error(message){}
 
 template <typename T, class Container>
 typename MutantStack<T, Container>::iterator MutantStack<T, Container>::begin() {
