@@ -2,6 +2,7 @@
 # define __MUTANTSTACK_HPP
 
 #include <iostream>
+#include <typeinfo>
 #include <deque>    
 #include <stack>
 
