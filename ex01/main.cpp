@@ -1,5 +1,8 @@
 #include "Span.hpp"
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
+#include <stdexcept>
 #include <unistd.h>
 
 void subjectTest();
@@ -42,7 +45,7 @@ int main(){
         Span span(TEST_NUM);
 		uVec vector(TEST_NUM, 42);
         try{
-			span.addNumbers(vector);
+			span.addNumber(vector);
 			span.addNumber(1);
         }catch(Span::SpanFull& e){
             std::cout << e.what() << std::endl;
@@ -54,7 +57,7 @@ int main(){
         Span span(TEST_NUM);
 		uVec vector(TEST_NUM, 42);
         try{
-			span.addNumbers(vector);
+			span.addNumber(vector);
         }catch(Span::SpanFull& e){
             std::cout << e.what() << std::endl;
         }
@@ -68,7 +71,7 @@ int main(){
         Span span(TEST_NUM);
 		uDeq deque(TEST_NUM, 42);
         try{
-			span.addNumbers(deque);
+			span.addNumber(deque);
         }catch(Span::SpanFull& e){
             std::cout << e.what() << std::endl;
         }
@@ -82,7 +85,7 @@ int main(){
         Span span(TEST_NUM);
 		uList list(TEST_NUM, 42);
         try{
-			span.addNumbers(list);
+			span.addNumber(list);
         }catch(Span::SpanFull& e){
             std::cout << e.what() << std::endl;
         }
@@ -92,6 +95,10 @@ int main(){
 	}
 
 	EMPTY_LINE;
+	{
+		Span span(TEST_NUM);
+		Span copy(span);
+	}
 }
 
 void subjectTest() {

@@ -1,33 +1,34 @@
 #ifndef __SPAN_HPP
 # define __SPAN_HPP
 
-#include <vector>
+#include <stdexcept>
 #include <deque>
 #include <list>
 #include <set>
+#include <vector>
 
 #define TEST_NUM 10000
 #define EMPTY_LINE std::cout << std::endl
 
-typedef std::vector<unsigned int> uVec;
-typedef std::deque<unsigned int> uDeq;
-typedef std::list<unsigned int> uList;
-typedef std::set<unsigned int> uSet;
+typedef std::vector<int> uVec;
+typedef std::deque<int> uDeq;
+typedef std::list<int> uList;
+typedef std::set<int> uSet;
 
 class Span{
     private:
         Span();
     public:
-        Span(unsigned int N);
+        Span(int N);
         Span(const Span& other);
         ~Span();
         Span& operator=(const Span& other);
     public:
-        void addNumber(unsigned int number); 
+        void addNumber(int number); 
 		template <typename Container>
-        void addNumbers(Container container); 
-        unsigned int shortestSpan();
-        unsigned int longestSpan();
+        void addNumber(Container container); 
+        int shortestSpan();
+        int longestSpan();
         void getMinMax();
     private:
         uVec *span;
@@ -53,7 +54,7 @@ class Span{
 };
 
 template <typename Container>
-void Span::addNumbers(Container container){
+void Span::addNumber(Container container){
 	if(span->size() + std::distance(container.begin(), container.end()) > span->capacity()) {
 		throw std::runtime_error("can't store");
 	}

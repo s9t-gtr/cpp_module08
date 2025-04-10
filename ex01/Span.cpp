@@ -1,8 +1,9 @@
 #include "Span.hpp"
+#include <algorithm>
 #include <iostream>
+#include <limits.h>
 
-Span::Span(unsigned int N) try : span(new uVec){
-	//std::cout << "Span: Unsigned int argument constructor called" << std::endl;
+Span::Span(int N) try : span(new uVec){ //std::cout << "Span: Unsigned int argument constructor called" << std::endl;
     span->reserve(N);
 }catch(std::bad_alloc& e){
     std::cerr << "Span constructor: new failed" << std::endl;
@@ -24,44 +25,47 @@ Span& Span::operator=(const Span& other){
         try{
             uVec *p = new uVec;
             p->reserve(other.span->capacity());
-            delete span;
-            span = p;
-        }catch(std::bad_alloc&){
-            std::cerr << "Exception: Span new failed;" << std::endl;
-        }
-    }
+			for(uVec::iterator it = other.span->begin(); it != other.span->end(); ++it)
+				p->push_back(*it);
+			if (span != NULL)
+				delete span;
+			span = p;
+		}catch(std::bad_alloc& e){
+			std::cerr << "Span: new failed" << std::endl;
+		}
+	}
     return *this;
 }
 
-void Span::addNumber(unsigned int number){
+void Span::addNumber(int number){
     if(span->size() == span->capacity())
         throw SpanFull();
     span->push_back(number);
 }   
 
-unsigned int Span::shortestSpan(){
+int Span::shortestSpan(){
     if(span->empty())
         throw SpanEmpty();
     if(span->size() == 1)
         throw SpanOneElement();
     std::sort(span->begin(), span->end());
-    unsigned int shortDiff = UINT_MAX;
+    int shortDiff = UINT_MAX;
     size_t size = span->size() - 1;
     for(size_t i=0; i<size; i++) {
-        unsigned int diff = span->at(i+1) - span->at(i);
+        int diff = span->at(i+1) - span->at(i);
         shortDiff = std::min(shortDiff, diff); 
     }
     return shortDiff;
 }
 
-unsigned int Span::longestSpan(){
+int Span::longestSpan(){
     if(span->empty())
         throw SpanEmpty();
     if(span->size() == 1)
         throw SpanOneElement();
     std::sort(span->begin(), span->end());
     size_t len = span->size();
-    unsigned int longDiff = span->at(len-1) - span->at(0);
+    int longDiff = span->at(len-1) - span->at(0);
     return longDiff;
 }
 
