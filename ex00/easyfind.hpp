@@ -2,20 +2,16 @@
 # define __EASYFIND_HPP
 
 #include <iostream>
-
+#include <algorithm> // std::find
 
 template <typename T>
-void easyfind(const T& container, const int target){
-	size_t firstOccurrence = 1;
-	typename T::const_iterator it = container.begin();
-	for (; it != container.end(); it++) {		
-		if (*it == target) {
-			std::cout << "        First occurrence position: " << firstOccurrence << std::endl;
-			return;
-		}
-		firstOccurrence++;
+void easyfind(const T& container, const int target) {
+	typename T::const_iterator it = std::find(container.begin(), container.end(), target);
+	if (it != container.end()) {
+		std::cout << "Found " << target << " at position " << std::distance(container.begin(), it) + 1 << std::endl;
+	} else {
+		throw std::invalid_argument("Element not found");
 	}
-    throw std::invalid_argument("Not found in container");
 }
 
 // test code
