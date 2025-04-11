@@ -30,6 +30,7 @@ class Span{
         int shortestSpan();
         int longestSpan();
         void getMinMax();
+		void printSpanAddress();
     private:
         uVec *span;
 

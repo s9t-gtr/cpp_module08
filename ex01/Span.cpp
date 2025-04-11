@@ -11,13 +11,21 @@ Span::Span(int N) try : span(new uVec){ //std::cout << "Span: Unsigned int argum
 
 Span::Span(const Span& other){
     //std::cout << "Span: Copy constructor called" << std::endl;
-    if(this != &other)
-        *this = other;
+	try {
+        span = new uVec;
+        span->reserve(other.span->capacity());
+        for(uVec::iterator it = other.span->begin(); it != other.span->end(); ++it)
+            span->push_back(*it);
+    } catch (std::bad_alloc& e) {
+        std::cerr << "Span copy constructor: new failed" << std::endl;
+        span = NULL;
+    }
 }   
 
 Span::~Span(){
     //std::cout << "Span: Destructor called" << std::endl;
-    delete span;
+	if(span != NULL)
+    	delete span;
 }
 
 Span& Span::operator=(const Span& other){
@@ -89,4 +97,7 @@ void Span::getMinMax(){
     std::cerr << " - span max num: "<<span->at(span->size()-1) << std::endl;;
 }
 
+void Span::printSpanAddress() {
+	std::cout << "address: span=" << &span << std::endl;
+}
 

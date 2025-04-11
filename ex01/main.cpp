@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <unistd.h>
 
+
 void subjectTest();
 int main(){
     std::srand(std::time(NULL));
@@ -97,7 +98,22 @@ int main(){
 	EMPTY_LINE;
 	{
 		Span span(TEST_NUM);
+		span.addNumber(1);
+		span.addNumber(2);
+		span.printSpanAddress();
 		Span copy(span);
+		copy.printSpanAddress();
+		copy.getMinMax();
+	}
+	EMPTY_LINE;
+	{
+		Span span(TEST_NUM);
+		span.addNumber(1);
+		span.addNumber(2);
+		span.printSpanAddress();
+		Span copy = span;
+		copy.printSpanAddress();
+		copy.getMinMax();
 	}
 }
 
