@@ -44,7 +44,7 @@ int main(){
     EMPTY_LINE;
     {   //limit over case
         Span span(TEST_NUM);
-		uVec vector(TEST_NUM, 42);
+		vec vector(TEST_NUM, 42);
         try{
 			span.addNumber(vector);
 			span.addNumber(1);
@@ -56,7 +56,7 @@ int main(){
     EMPTY_LINE;
     { //true case
         Span span(TEST_NUM);
-		uVec vector(TEST_NUM, 42);
+		vec vector(TEST_NUM, 42);
         try{
 			span.addNumber(vector);
         }catch(Span::SpanFull& e){

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <limits.h>
 
-Span::Span(int N) try : span(new uVec){ //std::cout << "Span: Unsigned int argument constructor called" << std::endl;
+Span::Span(int N) try : span(new vec){ //std::cout << "Span: Unsigned int argument constructor called" << std::endl;
     span->reserve(N);
 }catch(std::bad_alloc& e){
     std::cerr << "Span constructor: new failed" << std::endl;
@@ -12,9 +12,9 @@ Span::Span(int N) try : span(new uVec){ //std::cout << "Span: Unsigned int argum
 Span::Span(const Span& other){
     //std::cout << "Span: Copy constructor called" << std::endl;
 	try {
-        span = new uVec;
+        span = new vec;
         span->reserve(other.span->capacity());
-        for(uVec::iterator it = other.span->begin(); it != other.span->end(); ++it)
+        for(vec::iterator it = other.span->begin(); it != other.span->end(); ++it)
             span->push_back(*it);
     } catch (std::bad_alloc& e) {
         std::cerr << "Span copy constructor: new failed" << std::endl;
@@ -31,9 +31,9 @@ Span::~Span(){
 Span& Span::operator=(const Span& other){
     if(this != &other){
         try{
-            uVec *p = new uVec;
+            vec *p = new vec;
             p->reserve(other.span->capacity());
-			for(uVec::iterator it = other.span->begin(); it != other.span->end(); ++it)
+			for(vec::iterator it = other.span->begin(); it != other.span->end(); ++it)
 				p->push_back(*it);
 			if (span != NULL)
 				delete span;
@@ -57,7 +57,7 @@ int Span::shortestSpan(){
     if(span->size() == 1)
         throw SpanOneElement();
     std::sort(span->begin(), span->end());
-    int shortDiff = UINT_MAX;
+    int shortDiff = INT_MAX;
     size_t size = span->size() - 1;
     for(size_t i=0; i<size; i++) {
         int diff = span->at(i+1) - span->at(i);

@@ -10,7 +10,7 @@
 #define TEST_NUM 10000
 #define EMPTY_LINE std::cout << std::endl
 
-typedef std::vector<int> uVec;
+typedef std::vector<int> vec;
 typedef std::deque<int> uDeq;
 typedef std::list<int> uList;
 typedef std::set<int> uSet;
@@ -32,7 +32,7 @@ class Span{
         void getMinMax();
 		void printSpanAddress();
     private:
-        uVec *span;
+        vec *span;
 
     public:
         class SpanNotFound: public std::exception{
