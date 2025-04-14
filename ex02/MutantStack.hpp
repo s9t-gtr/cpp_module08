@@ -43,18 +43,12 @@ template <typename T, class Container>
 MutantStack<T, Container>::~MutantStack(){}
 
 template <typename T, class Container>
-MutantStack<T, Container>::MutantStack(const MutantStack& other){
-	this = other;
-}
+MutantStack<T, Container>::MutantStack(const MutantStack& other): Container(other){}
 
 template <typename T, class Container>
-MutantStack<T, Container>& MutantStack<T, Container>::operator=(const MutantStack& other){
-    if(this != &other){
-        try{
-            c = other.c;
-        }catch(std::bad_alloc&){
-            std::cerr << "Error: new std::deque<T, class Container> failed" << std::endl;
-        }
+MutantStack<T, Container>& MutantStack<T, Container>::operator=(const MutantStack& other) {
+    if (this != &other) {
+        this->c = other.c; // stackのprotectedメンバc（Container）を直接代入
     }
     return *this;
 }
@@ -138,32 +132,24 @@ template <class Container>
 void deepCopyTest(){
     Container stack, sub_stack;
     //push sub_stack
-    for(size_t i=0;i<5;i++){
-        sub_stack.push(i);
-    }
+	sub_stack.push(1);
+	sub_stack.push(2);
+	sub_stack.push(3);
     //copy
     stack = sub_stack;
-    //push stack
-    for(size_t i=0;i<5;i++){
-        stack.push(i);
-    }
-    //confirm stack and sub_stack
-    //stack
-    std::cout << "stack contents" << std::endl;
-    std::string::value_type size = stack.size();
-    for(std::string::value_type i=0;i<size;i++){
-        std::cout << stack.top() << ", ";
-        stack.pop();
-    }
-    std::cout << std::endl;
-    //sub_stack
-    std::cout << "sub_stack contents" << std::endl;
-    size = stack.size();
-    for(std::string::value_type i=0;i<size;i++){
-        std::cout << stack.top() << ", ";
-        sub_stack.pop();
-    }
+	stack.push(4);
+	for (size_t i = 0; i < 3; i++) {
+		std::cout << sub_stack.top() << std::endl;
+		sub_stack.pop();
+	}
+	std::cout << "stack.size()" << sub_stack.size() << std::endl;
 
+	for (size_t i = 0; i < 4; i++) {
+		std::cout << stack.top() << std::endl;
+		stack.pop();
+	}
+	std::cout << "sub_stack.size()" << stack.size() << std::endl;
+    //stack
     std::cout << std::endl;
 }
 
@@ -213,4 +199,5 @@ void iteratorTest_emptyStack_end(){
     std::cout << &it << std::endl;
     std::cout << *it << std::endl;
 }
+
 #endif
